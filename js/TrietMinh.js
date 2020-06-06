@@ -9,7 +9,8 @@
  * 
  * 
  */
-//////////////////////////////////////////////////
+//////////////////////////
+////////////////////////
 
 
 //===============================================//
@@ -20,12 +21,12 @@ d3.queue()
     .defer(d3.json, "data/countries-hires.json")
     .await(function(error, emissionData, continentData, worldGeoJson) {
         if (error) throw error;
-        console.log("emission Data", emissionData);
-        console.log("continent Data", continentData);
-        console.log("world geo", worldGeoJson);
+        // console.log("emission Data", emissionData);
+        // console.log("continent Data", continentData);
+        // console.log("world geo", worldGeoJson);
         var years = emissionData.columns;
         years = years.slice(1);  //get rid of the first element "Country"
-        console.log(years);
+        // console.log(years);
         var updateYear = years[0];
 
 
@@ -53,11 +54,11 @@ d3.queue()
         // Thousands separator - print a number with comma in thousand
         function numberWithCommas(x) {
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        }
+        } 
         // Tracking country name in emission data
         for (var i = 0; i < emissionData.length; i++){
             var countryName = emissionData[i]["Country"];
-            console.log("country name:", countryName)
+            // console.log("country name:", countryName)
         }
 
         // Merge json with emission data and continent data
@@ -94,7 +95,7 @@ d3.queue()
             }
         }
         // Tracking data in json after merging
-        console.log("After merging:", worldGeoJson.features);
+        // console.log("After merging:", worldGeoJson.features);
         /*
         for (var i = 0; i < worldGeoJson.features.length; i++){
             console.log("country:", worldGeoJson.features[i].properties["NAME_SORT"])
@@ -112,11 +113,8 @@ d3.queue()
             .style("border", "1px solid black")
             .call(zoom)
             .append("g")
-
-        
-            
+       
         var g = svgGeoChart.append("g")
-
 
         g.selectAll("path")
             .data(worldGeoJson.features)
@@ -124,9 +122,8 @@ d3.queue()
             .append("path")
             .attr("d", path)
             .attr("fill", "grey")
-            .attr("cursor", "pointer");
-    
-        
+
+            
         g.selectAll("circle")
             .data(worldGeoJson.features)
             .enter()
@@ -162,15 +159,13 @@ d3.queue()
         function updateBubble(year) {
             svgGeoChart.selectAll("circle")
                 .transition()
-                .duration(500)
+                .duration(100)
                 .attr("r", function(d){
                     if (d.properties[year] == 0){
                         return 0;
                     }
                     return rScale(d.properties[year])
                 })
-
-
         }
 
 
@@ -192,7 +187,6 @@ d3.queue()
 
 
         function updateCheckbox() {
-            console.log("Updated")
             d3.selectAll(".checkbox").each(function(d){
                 checkbox = d3.select(this)
                 continentGroup = checkbox.property("value")
@@ -222,6 +216,205 @@ d3.queue()
         updateCheckbox();
 
 
+        //----------------------Racing Bar Chart-------------------//
+        var margin = {top: 80, right: 0, bottom: 5, left: 0};
+
+        var barChartHeight = 600 - margin.top - margin.bottom,
+            barChartWidth = 960 - margin.left - margin.right,
+            top_n = 15;
+        var barPadding = (barChartHeight-(margin.bottom+margin.top))/(top_n*5);
+        var svg = d3.select("body")
+            .append("svg")
+            .attr("width", 960)
+            .attr("height", 600)
+            .append("g")
+        var title = svg.append("text")
+            .attr("class", "title")
+            .attr("y", 24)
+            .html("Top countries with the largest CO2 emission from 1760 to 2017");
+
+        var yearSlice = emissionData
+            .sort((a,b) => b[updateYear] - a[updateYear])
+            .slice(0, top_n);
+        yearSlice.forEach((d,i) => d.rank = i);
+
+        console.log("yearSlice", yearSlice);
+        
+
+        var x = d3.scaleLinear()
+            .domain([
+                0, 
+                d3.max(yearSlice, d => parseFloat(d[updateYear]))
+            ])
+            .range([margin.left, 960 - margin.right - 115])
+            
+        var y = d3.scaleLinear()
+            .domain([top_n, 0])
+            .range([barChartHeight - margin.bottom, margin.top])
+
+        console.log("y(0):", y(0) + "  y(1):" + y(1));
+        var xAxis = d3.axisTop()
+            .scale(x)
+            .ticks(barChartWidth > 500 ? 4:2)
+            .tickSize(-(barChartHeight-margin.top-margin.bottom))
+            .tickFormat(d => d3.format(',')(d));
+
+        svg.append("g")
+            .attr("class", "axis xAxis")
+            .attr("transform", `translate(0, ${margin.top})`)
+            .call(xAxis)
+            .selectAll('.tick line')
+            .classed('origin', d => d == 0);
+        svg.selectAll('rect.bar')
+            .data(yearSlice, d => d["Country"])
+            .enter()
+            .append("rect")
+            .attr("class", "bar")
+            .attr("x", margin.left + 1)
+            .attr("width", d => x(d[updateYear])- margin.left)
+            .attr("y", d => y(d.rank)+5)
+            .attr("height", y(1)-y(0)-barPadding)
+
+            
+        svg.selectAll('text.label')
+            .data(yearSlice, d => d["Country"])
+            .enter()
+            .append("text")
+            .attr("class", "label")
+            .attr("x", d => x(d[updateYear])-8)
+            .attr("y", d => y(d.rank)+5+((y(1)-y(0))/2)+1)
+            .style("text-anchor", "end")
+            .style("fill", "white")
+            .html(d => d["Country"]);
+
+        svg.selectAll("text.valueLabel")
+            .data(yearSlice, d => d["Country"])
+            .enter()
+            .append("text")
+            .attr("class", "valueLabel")
+            .attr("x", d => x(d[updateYear])+5)
+            .attr("y", d => y(d.rank)+5+((y(1)-y(0))/2)+1)
+            .text(d => d3.format(",.0f")(d[updateYear]));
+      
+        function updateBarChart(year){
+            // Update x
+            x.domain([
+                0, 
+                d3.max(yearSlice, d => parseFloat(d[year]))
+            ])
+            xAxis.scale(x)
+            // Update data
+            yearSlice =  emissionData
+            .sort((a,b) => parseFloat(b[year]) - parseFloat(a[year]))
+            .slice(0, top_n)
+            yearSlice.forEach((d,i) => d.rank = i);
+            // Update Axis
+            svg.select(".xAxis")
+            .transition()
+            .duration(500)
+            .ease(d3.easeLinear)
+            .call(xAxis);
+  
+            
+            var bars = svg.selectAll(".bar").data(yearSlice, d => d["Country"]);
+            // Update bars
+            bars
+            .enter()
+            .append("rect")
+            .attr("class", d => `bar ${d["Country"].replace(/\s/g,'_')}`)
+            .attr("x", margin.left + 1)
+            .attr( "width", d => x(d[year]) - margin.left)
+            .attr("y", d => y(top_n+1)+5)
+            .attr("height", y(1)-y(0)-barPadding)
+            .transition()
+                .duration(500)
+                .ease(d3.easeLinear)
+                .attr("y", d => y(d.rank)+5);
+
+            bars
+            .transition()
+                .duration(500)
+                .ease(d3.easeLinear)
+                .attr("width", d => x(d[year])-margin.left)
+                .attr('y', d => y(d.rank)+5); 
+            bars
+            .exit()
+            .transition()
+            .duration(500)
+                .ease(d3.easeLinear)
+                .attr('width', d => x(d[year])-margin.left)
+                .attr('y', d => y(top_n+1)+5)
+                .remove();
+                
+            var labels = svg.selectAll('.label')
+                .data(yearSlice, d => d["Country"]);
+            // Update Country labels
+            labels
+                .enter()
+                .append('text')
+                .attr('class', 'label')
+                .attr('x', d => x(d[year])-8)
+                .attr('y', d => y(top_n+1)+5+((y(1)-y(0))/2))
+                .style('text-anchor', 'end')
+                .style("fill", "white")
+                .html(d => d["Country"])    
+                .transition()
+                    .duration(500)
+                    .ease(d3.easeLinear)
+                    .attr('y', d => y(d.rank)+5+((y(1)-y(0))/2)+1);
+
+            labels
+                .transition()
+                .duration(500)
+                    .ease(d3.easeLinear)
+                    .attr('x', d => x(d[year])-8)
+                    .attr('y', d => y(d.rank)+5+((y(1)-y(0))/2)+1);
+               
+            labels
+                .exit()
+                .transition()
+                .duration(500)
+                    .ease(d3.easeLinear)
+                    .attr('x', d => x(d[year])-8)
+                    .attr('y', d => y(top_n+1)+5)
+                    .remove();
+
+            var valueLabels = svg.selectAll('.valueLabel').data(yearSlice, d => d["Country"]);
+            // Update CO2 value
+            valueLabels
+                .enter()
+                .append('text')
+                .attr('class', 'valueLabel')
+                .attr('x', d => x(d[year])+5)
+                .attr('y', d => y(top_n+1)+5)
+                .text(d => d3.format(',.0f')(d[year]))
+                .transition()
+                .duration(500)
+                    .ease(d3.easeLinear)
+                    .attr('y', d => y(d.rank)+5+((y(1)-y(0))/2)+1);
+                         
+            valueLabels
+                .transition()
+                .duration(500)
+                    .ease(d3.easeLinear)
+                    .attr('x', d => x(d[year])+5)
+                    .attr('y', d => y(d.rank)+5+((y(1)-y(0))/2)+1)
+                    .text(d => d3.format(',.0f')(d[year]));
+                                   
+            valueLabels
+                .exit()
+                .transition()
+                .duration(50)
+                    .ease(d3.easeLinear)
+                    .attr('x', d => x(d[year])+5)
+                    .attr('y', d => y(top_n+1)+5)
+                    .remove();
+        }
+
+        
+  
+
+
         // ------------------TimeSlider------------------------- //
         //========//
           // Time test
@@ -230,7 +423,7 @@ d3.queue()
         });
         var slider = d3Slider.sliderHorizontal()
             .domain(d3.extent(dataTime))
-            .width(900)
+            .width(500)
             .tickFormat(d3.timeFormat('%Y'))
             .ticks(20)
             .default(dataTime[0])
@@ -241,7 +434,8 @@ d3.queue()
                 // console.log(year);
                 updateYear = year;
                 updateCheckbox();
-                updateBubble(year);
+                updateBubble(updateYear);
+                updateBarChart(updateYear);
                 
             })
 
