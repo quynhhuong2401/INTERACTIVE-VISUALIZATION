@@ -9,16 +9,15 @@
  * 
  * 
  */
-//////////////////////////
-////////////////////////
+//////////////////////////////////////////////////
 
 
 //===============================================//
 // Prepare data
 d3.queue()
-    .defer(d3.csv, "data/emission data.csv")
-    .defer(d3.csv, "data/countryContinent.csv")
-    .defer(d3.json, "data/countries-hires.json")
+    .defer(d3.csv, "https://raw.githubusercontent.com/quynhhuong2401/INTERACTIVE-VISUALIZATION/master/data/emission%20data.csv")
+    .defer(d3.csv, "https://raw.githubusercontent.com/quynhhuong2401/INTERACTIVE-VISUALIZATION/master/data/countryContinent.csv")
+    .defer(d3.json, "https://raw.githubusercontent.com/quynhhuong2401/INTERACTIVE-VISUALIZATION/master/data/countries-hires.json")
     .await(function(error, emissionData, continentData, worldGeoJson) {
         if (error) throw error;
         // console.log("emission Data", emissionData);
