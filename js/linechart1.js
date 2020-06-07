@@ -123,7 +123,7 @@ d3.csv("https://raw.githubusercontent.com/quynhhuong2401/INTERACTIVE-VISUALIZATI
                 .attr('d', d => line(d.values))
                 .style("stroke-width", "2")
 
-
+/*
             // Add the CIRCLE on the lines
             svg
                 .selectAll("myDots")
@@ -152,7 +152,7 @@ d3.csv("https://raw.githubusercontent.com/quynhhuong2401/INTERACTIVE-VISUALIZATI
                     return "circle " + d.key
                 })
 
-
+*/
 
             // this the black vertical line to folow mouse
             var mouseG = svg.append("g")

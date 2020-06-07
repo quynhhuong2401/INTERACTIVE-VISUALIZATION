@@ -13,7 +13,7 @@ d3.csv("https://raw.githubusercontent.com/quynhhuong2401/INTERACTIVE-VISUALIZATI
         } else {
             console.log(data);
 
-            // Mỗi linechart có 1 selector khác nhau, 3 linechart sẽ có 3 Selector khác nhau
+           
             var linechart3Selector = d3.select('#linechart3');
 
             // Set the margins
@@ -119,7 +119,7 @@ d3.csv("https://raw.githubusercontent.com/quynhhuong2401/INTERACTIVE-VISUALIZATI
                 })
                 .attr('d', d => line(d.values))
                 .style("stroke-width", "2")
-
+/*
             // Add the CIRCLE on the lines
             svg.selectAll("myDots")
                 .data(nestedDataByCountry)
@@ -138,7 +138,7 @@ d3.csv("https://raw.githubusercontent.com/quynhhuong2401/INTERACTIVE-VISUALIZATI
                 .append("circle")
                 .attr("cx", d => xScale(d.Year))
                 .attr("cy", d => yScale(d.Emission))
-                .attr("r", 2)
+                .attr("r", 2) */
 
 
             // this the black vertical line to folow mouse

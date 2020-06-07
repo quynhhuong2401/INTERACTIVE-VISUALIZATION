@@ -13,7 +13,7 @@ d3.csv("https://raw.githubusercontent.com/quynhhuong2401/INTERACTIVE-VISUALIZATI
         } else {
             console.log(data);
 
-            // Mỗi linechart có 1 selector khác nhau, 3 linechart sẽ có 3 Selector khác nhau
+           
             var linechart2Selector = d3.select('#linechart2');
 
             // Set the margins
@@ -121,7 +121,7 @@ d3.csv("https://raw.githubusercontent.com/quynhhuong2401/INTERACTIVE-VISUALIZATI
                 })
                 .attr('d', d => line(d.values))
                 .style("stroke-width", "2")
-
+/*
             // Add the CIRCLE on the lines
             svg.selectAll("myDots")
                 .data(nestedDataByCountry)
@@ -141,7 +141,7 @@ d3.csv("https://raw.githubusercontent.com/quynhhuong2401/INTERACTIVE-VISUALIZATI
                 .attr("cx", d => xScale(d.Year))
                 .attr("cy", d => yScale(d.Emission))
                 .attr("r", 2)
-
+*/
 
             // this the black vertical line to folow mouse
             var mouseG = svg.append("g")
@@ -207,12 +207,6 @@ d3.csv("https://raw.githubusercontent.com/quynhhuong2401/INTERACTIVE-VISUALIZATI
 
                     linechart2Selector.selectAll(".mouse-per-line")
                         .attr("transform", function (d) {
-
-                            // dòng 208 với 281 
-                            // cái mouse[0] - 10
-                            // số 10 ở đây là tùy trừ càng nhiều thì con trỏ chuột 
-                            // với cái chấm tròn cách xa càng nhiều và ngược lại
-                            // trừ thử số khác là thấy nó khác à
 
                             var xYear = xScale.invert(mouse[0] - 10);
                             var bisect = d3.bisector(function (d) {
