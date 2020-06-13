@@ -30,8 +30,8 @@ d3.queue()
 
 
      //------------------------Interactive Map------------------------//   
-        const width = 960;
-        const height = 500;
+        const width = 850;
+        const height = 330;
 
         var zoom = d3.zoom().scaleExtent([1, 8]).on("zoom", zoomed);
         var projection = d3.geoMercator()
@@ -218,11 +218,11 @@ d3.queue()
         //----------------------Racing Bar Chart-------------------//
         var margin = {top: 80, right: 0, bottom: 5, left: 0};
 
-        var barChartHeight = 600 - margin.top - margin.bottom,
-            barChartWidth = 960 - margin.left - margin.right,
+        var barChartHeight = 500 - margin.top - margin.bottom,
+            barChartWidth = 200 - margin.left - margin.right,
             top_n = 15;
         var barPadding = (barChartHeight-(margin.bottom+margin.top))/(top_n*5);
-        var svg = d3.select("body")
+        var svg = d3.select("#barchart")
             .append("svg")
             .attr("width", 960)
             .attr("height", 600)
@@ -230,7 +230,7 @@ d3.queue()
         var title = svg.append("text")
             .attr("class", "title")
             .attr("y", 24)
-            .html("Top countries with the largest CO2 emission from 1760 to 2017");
+            .html("Top countries with the largest CO2 emission");
 
         var yearSlice = emissionData
             .sort((a,b) => b[updateYear] - a[updateYear])
@@ -245,7 +245,7 @@ d3.queue()
                 0, 
                 d3.max(yearSlice, d => parseFloat(d[updateYear]))
             ])
-            .range([margin.left, 960 - margin.right - 115])
+            .range([margin.left, 500 - margin.right - 115])
             
         var y = d3.scaleLinear()
             .domain([top_n, 0])
@@ -280,20 +280,20 @@ d3.queue()
             .enter()
             .append("text")
             .attr("class", "label")
-            .attr("x", d => x(d[updateYear])-8)
+            .attr("x", d => x(d[updateYear])+5)
             .attr("y", d => y(d.rank)+5+((y(1)-y(0))/2)+1)
-            .style("text-anchor", "end")
-            .style("fill", "white")
+            .style("text-anchor", "start")
+            .style("fill", "black")
             .html(d => d["Country"]);
 
-        svg.selectAll("text.valueLabel")
+        /*svg.selectAll("text.valueLabel")
             .data(yearSlice, d => d["Country"])
             .enter()
             .append("text")
             .attr("class", "valueLabel")
             .attr("x", d => x(d[updateYear])+5)
             .attr("y", d => y(d.rank)+5+((y(1)-y(0))/2)+1)
-            .text(d => d3.format(",.0f")(d[updateYear]));
+            .text(d => d3.format(",.0f")(d[updateYear]));*/
       
         function updateBarChart(year){
             // Update x
@@ -352,10 +352,10 @@ d3.queue()
                 .enter()
                 .append('text')
                 .attr('class', 'label')
-                .attr('x', d => x(d[year])-8)
+                .attr('x', d => x(d[year])+5)
                 .attr('y', d => y(top_n+1)+5+((y(1)-y(0))/2))
-                .style('text-anchor', 'end')
-                .style("fill", "white")
+                .style('text-anchor', 'start')
+                .style("fill", "black")
                 .html(d => d["Country"])    
                 .transition()
                     .duration(500)
@@ -366,7 +366,7 @@ d3.queue()
                 .transition()
                 .duration(500)
                     .ease(d3.easeLinear)
-                    .attr('x', d => x(d[year])-8)
+                    .attr('x', d => x(d[year])+5)
                     .attr('y', d => y(d.rank)+5+((y(1)-y(0))/2)+1);
                
             labels
@@ -374,11 +374,11 @@ d3.queue()
                 .transition()
                 .duration(500)
                     .ease(d3.easeLinear)
-                    .attr('x', d => x(d[year])-8)
+                    .attr('x', d => x(d[year])+5)
                     .attr('y', d => y(top_n+1)+5)
                     .remove();
 
-            var valueLabels = svg.selectAll('.valueLabel').data(yearSlice, d => d["Country"]);
+            /*var valueLabels = svg.selectAll('.valueLabel').data(yearSlice, d => d["Country"]);
             // Update CO2 value
             valueLabels
                 .enter()
@@ -407,7 +407,7 @@ d3.queue()
                     .ease(d3.easeLinear)
                     .attr('x', d => x(d[year])+5)
                     .attr('y', d => y(top_n+1)+5)
-                    .remove();
+                    .remove(); */
         }
 
         

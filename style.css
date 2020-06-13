@@ -29,25 +29,63 @@ text.valueLabel{
   font-weight: 300;
   font-size: 14px;
 }
- 
+
+#interactiveMap{
+  position: absolute;
+  top: 10px;
+  left: 20px;
+}
+
+#barchart{
+  position: absolute;
+  top: 10px;
+  left: 900px;
+}
+#zoom_in{
+  position: absolute;
+  top: 345px;
+  left: 20px;
+}
+#zoom_out{
+  position: absolute;
+  top: 345px;
+  left: 55px;
+}
+#slider{
+  position: absolute;
+  top: 330px;
+  left: 110px;
+}
+#value{
+  font-size: 100px;
+  position: absolute;
+  top: 350px;
+  left: 1000px;
+}
+#box{
+  position: absolute;
+  top: 315px;
+  left: 20px;
+}
+
 
 #linechart1 {    
   position:absolute;
-  top:10px;
-  left:10px;
-  height: 150px;
+  top:360px;
+  left:0px;
+  height:70px;
 }
     
 #linechart2 {    
   position:absolute;
-  top:10px;
-  left:500px;
-  height: 150px;
+  top:360px;
+  left:300px;
+  height:70px;
 }
     
 #linechart3 {    
   position:absolute;
-  top:10px;
-  left:1000px;
-  height: 150px;
+  top:360px;
+  left:600px;
+  height:70px;
 }

@@ -19,12 +19,12 @@ d3.csv("https://raw.githubusercontent.com/quynhhuong2401/INTERACTIVE-VISUALIZATI
             // Set the margins
             var margin = {
                     top: 60,
-                    right: 100,
+                    right: 60,
                     bottom: 20,
                     left: 100
                 },
-                width = 600 - margin.left - margin.right,
-                height = 400 - margin.top - margin.bottom;
+                width = 350 - margin.left - margin.right,
+                height = 250 - margin.top - margin.bottom;
 
             // Create the svg canvas 
             var svg = linechart3Selector
@@ -89,7 +89,7 @@ d3.csv("https://raw.githubusercontent.com/quynhhuong2401/INTERACTIVE-VISUALIZATI
             // Add a label to the y axis
             svg.append("text")
                 .attr("transform", "rotate(-90)")
-                .attr("y", 0 - 80)
+                .attr("y", 0 - 70)
                 .attr("x", 0 - (height / 2))
                 .attr("dy", "1em")
                 .style("text-anchor", "middle")
