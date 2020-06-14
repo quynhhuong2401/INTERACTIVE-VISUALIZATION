@@ -254,7 +254,7 @@ d3.csv(
         .attr("text-anchor", "middle")
         .attr("class", "myLabel1")
         .text("First industrial revolution")
-        .attr("font-size", "10px");
+        .attr("font-size", "12px");
 
       text_period2 = svg
         .append("text")
@@ -263,7 +263,7 @@ d3.csv(
         .attr("text-anchor", "middle")
         .attr("class", "myLabel2")
         .text("Second industrial revolution")
-        .attr("font-size", "10px");
+        .attr("font-size", "12px");
 
       text_period3 = svg
         .append("text")
@@ -272,7 +272,7 @@ d3.csv(
         .attr("text-anchor", "middle")
         .attr("class", "myLabel3")
         .text("Third industrial revolution")
-        .attr("font-size", "10px");
+        .attr("font-size", "12px");
 
       // this the black vertical line to folow mouse
       var mouseG = svg.append("g").attr("class", "mouse-over-effects");
@@ -304,12 +304,12 @@ d3.csv(
 
       mousePerLine.append("text").attr("transform", "translate(10,-5)");
 
-      var tooltip = linechart1Selector
+      var tooltip = d3.select("#linechart")
         .append("div")
         .attr("id", "tooltip")
         .style("position", "fixed")
         .style("background-color", "#D3D3D3")
-        .style("padding", 5 + "px")
+        .style("padding", 1 + "px")
         .style("display", "none");
 
       mouseG
@@ -408,8 +408,8 @@ d3.csv(
               "</div>"
             );
           })
-          .style("left", d3.event.pageX + 50 + "px")
-          .style("top", d3.event.pageY - 50 + "px")
+          .style("left", d3.event.pageX + 30 + "px")
+          .style("top", d3.event.pageY - 200 + "px")
           .style("display", "block")
           .style("font-size", 12)
           .selectAll()

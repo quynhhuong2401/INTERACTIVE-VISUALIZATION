@@ -41,7 +41,7 @@ text.valueLabel{
   
   #barchart{
     position: absolute;
-    top: 170px;
+    top: 160px;
     left: 900px;
   }
   #zoom_in{
@@ -57,13 +57,13 @@ text.valueLabel{
   #slider{
     position: absolute;
     top: 510px;
-    left: 110px;
+    left: 160px;
   }
   #value{
     font-size: 100px;
     position: absolute;
     top: 570px;
-    left: 1000px;
+    left: 1060px;
   }
   #box{
     position: absolute;
@@ -74,7 +74,7 @@ text.valueLabel{
   
   #linechart {    
     position:absolute;
-    top:580px;
+    top:540px;
     left:0px;
     height:80px;
   }

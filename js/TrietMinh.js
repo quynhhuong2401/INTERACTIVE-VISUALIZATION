@@ -229,7 +229,7 @@ d3.queue()
             .append("g")
         var title = svg.append("text")
             .attr("class", "title")
-            .attr("y", 24)
+            .attr("y", 20)
             .html("Top countries with the largest CO2 emission");
 
         var yearSlice = emissionData
