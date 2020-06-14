@@ -125,7 +125,7 @@ d3.csv("https://raw.githubusercontent.com/quynhhuong2401/INTERACTIVE-VISUALIZATI
                 .append('path')
                 .attr("fill", "none")
                 .attr("stroke", function (d) { return color(d.key) })
-                .attr('class', function (d) { return "line " + d.key })
+                .attr('class', function (d) { return "line " + "line-"+ d.key })
                 .attr('d', d => line(d.values))
                 .style("stroke-width", "2")
 
@@ -141,7 +141,7 @@ d3.csv("https://raw.githubusercontent.com/quynhhuong2401/INTERACTIVE-VISUALIZATI
                     .style("opacity", 0.05)
 
 
-                d3.select("." + d.key)
+                d3.select(".line-" + d.key)
 
                     .transition()
                     .duration(300)
