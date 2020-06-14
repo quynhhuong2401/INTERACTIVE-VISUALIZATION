@@ -16,8 +16,6 @@
 }
 
 text{
- 
-  
   font-family:'Karla';
 }
 text.title{
@@ -32,49 +30,61 @@ text.valueLabel{
   font-size: 14px;
 }
 
+#title{
+  font-size: 50px;
+  position: absolute;
+  top: 5px;
+  left: 900px;
+}
+
+#descript{
+  font-size: 20px;
+  position: absolute;
+  top: 100px;
+  left: 900px;
+}
  
-  #interactiveMap{
-    position: absolute;
-    top: 170px;
-    left: 20px;
-  }
+#interactiveMap{
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
   
-  #barchart{
-    position: absolute;
-    top: 160px;
-    left: 900px;
-  }
-  #zoom_in{
-    position: absolute;
-    top: 480px;
-    left: 20px;
-  }
-  #zoom_out{
-    position: absolute;
-    top: 480px;
-    left: 40px;
-  }
-  #slider{
-    position: absolute;
-    top: 510px;
-    left: 160px;
-  }
-  #value{
-    font-size: 100px;
-    position: absolute;
-    top: 570px;
-    left: 1060px;
-  }
-  #box{
-    position: absolute;
-    top: 505px;
-    left: 20px;
-  }
-  
-  
-  #linechart {    
-    position:absolute;
-    top:540px;
-    left:0px;
-    height:80px;
-  }
+#barchart{
+  position: absolute;
+  top: 320px;
+  left: 900px;
+}
+#zoom_in{
+  position: absolute;
+  top: 330px;
+  left: 20px;
+}
+#zoom_out{
+  position: absolute;
+  top: 330px;
+  left: 40px;
+}
+#slider{
+  position: absolute;
+  top: 370px;
+  left: 100px;
+}
+#value{
+  font-size: 100px;
+  position: absolute;
+  top: 400px;
+  left: 1400px;
+}
+#box{
+  position: absolute;
+  top: 365px;
+  left: 20px;
+}
+
+#linechart {    
+  position:absolute;
+  top:400px;
+  left:0px;
+  height:80px;
+}
