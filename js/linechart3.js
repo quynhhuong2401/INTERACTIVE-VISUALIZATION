@@ -224,12 +224,12 @@ d3.csv("https://raw.githubusercontent.com/quynhhuong2401/INTERACTIVE-VISUALIZATI
 
                             d3.select(this)
                                 .select("text")
-                                .text(yScale.invert(yCoordinate).toFixed(0))
+                              //  .text(yScale.invert(yCoordinate).toFixed(0))
                                 .attr("fill", function (d) {
                                     return mappingColorByCountry(d.key)
                                 });
 
-                            return "translate(" + xCoordinate + "," + yCoordinate + ")";
+                            return "translate(" + xCoordinate + "," + yCoordinate + ")"; 
                         });
 
 
@@ -280,7 +280,7 @@ d3.csv("https://raw.githubusercontent.com/quynhhuong2401/INTERACTIVE-VISUALIZATI
                     })
                     .style('font-size', 10)
                     .html(d => {
-                        return d.Country + " : " + d.Emission;
+                       return d.Country + " : " + d.Emission;
                     })
             }
         }

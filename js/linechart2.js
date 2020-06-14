@@ -226,7 +226,7 @@ d3.csv("https://raw.githubusercontent.com/quynhhuong2401/INTERACTIVE-VISUALIZATI
 
                             d3.select(this)
                                 .select("text")
-                                .text(yScale.invert(yCoordinate).toFixed(0))
+                               // .text(yScale.invert(yCoordinate).toFixed(0))
                                 .attr("fill", function (d) {
                                     return mappingColorByCountry(d.key)
                                 });
