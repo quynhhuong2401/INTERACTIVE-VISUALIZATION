@@ -68,7 +68,7 @@ d3.csv("https://raw.githubusercontent.com/quynhhuong2401/INTERACTIVE-VISUALIZATI
             console.log(nest)
             var color = d3.scaleOrdinal()
                 .domain(res)
-                .range(['blue', 'green', 'orange', 'red', 'purple'])
+                .range(['#CF33FF', '#33FFBB', '#FFC933', '#FF3355', '#337eff'])
 
             //  Add the X Axis
             var xaxis = svg.append("g")
