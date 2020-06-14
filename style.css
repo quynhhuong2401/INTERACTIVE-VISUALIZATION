@@ -30,32 +30,32 @@ text.valueLabel{
   font-size: 14px;
 }
 
-#interactiveMap{
-  position: absolute;
-  top: 10px;
-  left: 20px;
-}
-
-#barchart{
-  position: absolute;
-  top: 10px;
-  left: 900px;
-}
-#zoom_in{
-  position: absolute;
-  top: 345px;
-  left: 20px;
-}
-#zoom_out{
-  position: absolute;
-  top: 345px;
-  left: 55px;
-}
-#slider{
-  position: absolute;
-  top: 330px;
-  left: 110px;
-}
+  #interactiveMap{
+    position: absolute;
+    top: 200px;
+    left: 20px;
+  }
+  
+  #barchart{
+    position: absolute;
+    top: 200px;
+    left: 900px;
+  }
+  #zoom_in{
+    position: absolute;
+    top: 510px;
+    left: 20px;
+  }
+  #zoom_out{
+    position: absolute;
+    top: 510px;
+    left: 40px;
+  }
+  #slider{
+    position: absolute;
+    top: 540px;
+    left: 110px;
+  }
   #value{
     font-size: 100px;
     position: absolute;
