@@ -33,46 +33,46 @@ text.valueLabel{
  
   #interactiveMap{
     position: absolute;
-    top: 200px;
+    top: 195px;
     left: 20px;
   }
   
   #barchart{
     position: absolute;
-    top: 200px;
+    top: 195px;
     left: 900px;
   }
   #zoom_in{
     position: absolute;
-    top: 510px;
+    top: 505px;
     left: 20px;
   }
   #zoom_out{
     position: absolute;
-    top: 510px;
+    top: 505px;
     left: 40px;
   }
   #slider{
     position: absolute;
-    top: 540px;
+    top: 535px;
     left: 110px;
   }
   #value{
     font-size: 100px;
     position: absolute;
-    top: 600px;
+    top: 595px;
     left: 1000px;
   }
   #box{
     position: absolute;
-    top: 530px;
+    top: 525px;
     left: 20px;
   }
   
   
   #linechart {    
     position:absolute;
-    top:600px;
+    top:595px;
     left:0px;
     height:80px;
   }
