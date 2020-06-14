@@ -216,9 +216,9 @@ d3.queue()
 
 
         //----------------------Racing Bar Chart-------------------//
-        var margin = {top: 80, right: 0, bottom: 5, left: 0};
+        var margin = {top: 70, right: 0, bottom: 5, left: 0};
 
-        var barChartHeight = 500 - margin.top - margin.bottom,
+        var barChartHeight = 480 - margin.top - margin.bottom,
             barChartWidth = 200 - margin.left - margin.right,
             top_n = 15;
         var barPadding = (barChartHeight-(margin.bottom+margin.top))/(top_n*5);
