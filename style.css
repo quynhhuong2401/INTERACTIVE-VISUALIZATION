@@ -56,17 +56,17 @@ text.valueLabel{
   top: 330px;
   left: 110px;
 }
-#value{
-  font-size: 100px;
-  position: absolute;
-  top: 350px;
-  left: 1000px;
-}
-#box{
-  position: absolute;
-  top: 315px;
-  left: 20px;
-}
+  #value{
+    font-size: 100px;
+    position: absolute;
+    top: 600px;
+    left: 1000px;
+  }
+  #box{
+    position: absolute;
+    top: 530px;
+    left: 20px;
+  }
 
 
  #linechart {    
