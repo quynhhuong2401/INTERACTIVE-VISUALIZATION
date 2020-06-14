@@ -69,23 +69,11 @@ text.valueLabel{
 }
 
 
-#linechart1 {    
+#linechart {    
   position:absolute;
   top:360px;
   left:0px;
-  height:70px;
+  height:80px;
 }
     
-#linechart2 {    
-  position:absolute;
-  top:360px;
-  left:300px;
-  height:70px;
-}
-    
-#linechart3 {    
-  position:absolute;
-  top:360px;
-  left:600px;
-  height:70px;
-}
+
