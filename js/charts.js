@@ -28,6 +28,16 @@ d3.queue()
         // console.log(years);
         var updateYear = years[0];
 
+        for (var idx = 0; idx < emissionData.length; idx++) {
+            emissionData[idx]["continent"] = "";
+            for (var j = 0; j < continentData.length; j++) {
+               if(continentData[j]["country"].includes(emissionData[idx]["Country"])){
+                emissionData[idx]["continent"] = continentData[j]["continent"];
+               }
+            }
+        }
+        console.log("emission Data", emissionData);
+
 
      //------------------------Interactive Map------------------------//   
         const width = 850;
@@ -48,6 +58,10 @@ d3.queue()
                 d3.max(emissionData, d => parseFloat(d[years[years.length - 1]]))
             ])
             .range([1, 25]);
+
+        var color = d3.scaleOrdinal()
+            .domain(["Asia", "Americas", "Europe", "Africa", "Oceania"])
+            .range(["#CF33FF", "#33FFBB", "#FFC933", "#FF3355", "#337eff"]);
 
 
         // Thousands separator - print a number with comma in thousand
@@ -109,7 +123,7 @@ d3.queue()
             .attr("height", height)
             .attr("stroke", "black")
             .attr("stroke-width", 0.5)
-            .style("border", "1px solid black")
+            .style("border", "1px solid #CBB7A2")
             .call(zoom)
             .append("g")
        
@@ -136,8 +150,9 @@ d3.queue()
                 }
                 return rScale(d.properties[ years[0] ])
             })
-            .attr("fill", "red")
+            .attr("fill", d => color(d.properties["continent"]))
             .attr("fill-opacity", 0.5)
+            .attr("stroke", d => color(d.properties["continent"]))
             .on("mouseover", function(d) {
                 d3.select("#tooltip")
                     .html(  "Country: <strong>" + d.properties["NAME_SORT"] + "</strong><br>" +
@@ -273,6 +288,8 @@ d3.queue()
             .attr("width", d => x(d[updateYear])- margin.left)
             .attr("y", d => y(d.rank)+5)
             .attr("height", y(1)-y(0)-barPadding)
+            .attr("fill", d => color(d["continent"]))
+            .attr("opacity", 0.7)
 
             
         svg.selectAll('text.label')
@@ -283,8 +300,11 @@ d3.queue()
             .attr("x", d => x(d[updateYear])+5)
             .attr("y", d => y(d.rank)+5+((y(1)-y(0))/2)+1)
             .style("text-anchor", "start")
-            .style("fill", "black")
-            .html(d => d["Country"]);
+            .style("fill", "gray")
+            .html(function(d){
+                if (d[updateYear] != 0)
+                    return d["Country"]
+            });
 
         /*svg.selectAll("text.valueLabel")
             .data(yearSlice, d => d["Country"])
@@ -325,6 +345,8 @@ d3.queue()
             .attr( "width", d => x(d[year]) - margin.left)
             .attr("y", d => y(top_n+1)+5)
             .attr("height", y(1)-y(0)-barPadding)
+            .attr("fill", d => color(d["continent"]))
+            .attr("opacity", 0.7)
             .transition()
                 .duration(500)
                 .ease(d3.easeLinear)
@@ -343,6 +365,7 @@ d3.queue()
                 .ease(d3.easeLinear)
                 .attr('width', d => x(d[year])-margin.left)
                 .attr('y', d => y(top_n+1)+5)
+                .attr("fill", d => color(d["continent"]))
                 .remove();
                 
             var labels = svg.selectAll('.label')
@@ -355,8 +378,11 @@ d3.queue()
                 .attr('x', d => x(d[year])+5)
                 .attr('y', d => y(top_n+1)+5+((y(1)-y(0))/2))
                 .style('text-anchor', 'start')
-                .style("fill", "black")
-                .html(d => d["Country"])    
+                .style("fill", "gray")
+                .html(function(d){
+                    if (d[year] != 0)
+                        return d["Country"]
+                })    
                 .transition()
                     .duration(500)
                     .ease(d3.easeLinear)
@@ -368,6 +394,7 @@ d3.queue()
                     .ease(d3.easeLinear)
                     .attr('x', d => x(d[year])+5)
                     .attr('y', d => y(d.rank)+5+((y(1)-y(0))/2)+1);
+                    
                
             labels
                 .exit()
@@ -422,7 +449,7 @@ d3.queue()
         });
         var slider = d3Slider.sliderHorizontal()
             .domain(d3.extent(dataTime))
-            .width(500)
+            .width(700)
             .tickFormat(d3.timeFormat('%Y'))
             .ticks(20)
             .default(dataTime[0])
@@ -440,8 +467,8 @@ d3.queue()
 
 
         svgSlider = d3.select("div#slider").append("svg")
-            .attr("width", 1000)
-            .attr("height", 100)
+            .attr("width", 800)
+            .attr("height", 90)
             .append("g")
             .attr("transform", "translate(30,30)")
             .call(slider);

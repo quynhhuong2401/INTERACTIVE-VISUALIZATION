@@ -1,3 +1,43 @@
+body { 
+  background: #071631;
+  color: #333333;
+}
+button {
+  background-color: bisque;
+}
+
+#zoom_in{
+  position: absolute;
+  top: 330px;
+  left: 20px;
+}
+#zoom_out{
+  position: absolute;
+  top: 330px;
+  left: 40px;
+}
+#slider{
+  position: absolute;
+  top: 360px;
+  left: 80px;
+  stroke: antiquewhite;
+  fill: #bed0d2;
+}
+#value{
+  font-size: 100px;
+  position: absolute;
+  top: 400px;
+  left: 1300px;
+  color: bisque;
+}
+#box{
+  position: absolute;
+  top: 365px;
+  left: 20px;
+}
+
+
+/*-----------------Map--------------*/
 #tooltip {
   position: absolute;
   width: auto;
@@ -14,24 +54,22 @@
 #tooltip.hidden {
   display: none;
 }
+#interactiveMap{
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+/*----------------------------*/
 
+
+/*------------Script-----------*/
 text{
   font-family:'Karla';
-}
-text.title{
-  font-size: 24px;
-  font-weight: 500;
-}
-text.label{
-  font-weight: 600;
-}
-text.valueLabel{
-  font-weight: 300;
-  font-size: 14px;
 }
 
 #title{
   font-size: 44px;
+  color: #adff2f;
   position: absolute;
   top: 0px;
   left: 900px;
@@ -40,51 +78,74 @@ text.valueLabel{
 #descript{
   font-size: 20px;
   position: absolute;
+  color: #D9E6BB;
   top: 60px;
   left: 900px;
 }
  
-#interactiveMap{
-  position: absolute;
-  top: 20px;
-  left: 20px;
-}
-  
+/*-------------- Bar chart-------------*/  
 #barchart{
   position: absolute;
   top: 280px;
   left: 900px;
 }
-#zoom_in{
-  position: absolute;
-  top: 330px;
-  left: 20px;
+.axis.xAxis text{
+  fill: whitesmoke;
 }
-#zoom_out{
-  position: absolute;
-  top: 330px;
-  left: 40px;
+.axis.xAxis path{
+  stroke: whitesmoke;
 }
-#slider{
-  position: absolute;
-  top: 360px;
-  left: 100px;
-}
-#value{
-  font-size: 100px;
-  position: absolute;
-  top: 400px;
-  left: 1300px;
-}
-#box{
-  position: absolute;
-  top: 365px;
-  left: 20px;
+.axis.xAxis line{
+  stroke: whitesmoke;
 }
 
+text.title{
+  font-size: 24px;
+  font-weight: 500;
+  fill: #adff2f;
+}
+text.label{
+  font-weight: 600;
+}
+text.valueLabel{
+  font-weight: 300;
+  font-size: 14px;
+}
+/*Checkbox*/
+label {
+  color: whitesmoke;
+}
+
+
+/*------------------------------------*/
+
+/*---------Line Chart------------*/
 #linechart {    
   position:absolute;
-  top:380px;
+  top:420px;
   left:0px;
   height:80px;
 }
+.line-group {
+  mix-blend-mode: multiply;
+}
+.x.axis text{
+  fill: whitesmoke;
+}
+.x.axis path{
+  stroke: whitesmoke;
+}
+.x.axis line{
+  stroke: whitesmoke;
+}
+
+.y.axis text{
+  fill: whitesmoke;
+}
+.y.axis path{
+  stroke: whitesmoke;
+}
+.y.axis line{
+  stroke: whitesmoke;
+}
+

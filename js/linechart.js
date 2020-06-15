@@ -15,15 +15,19 @@ d3.csv(
     } else {
       console.log(data);
 
+      function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    } 
+
       // Set the margins
       var margin = {
-        top: 100,
+        top: 60,
         right: 60,
-        bottom: 100,
+        bottom: 50,
         left: 100,
       };
       (width = 920 - margin.left - margin.right),
-        (height = 400 - margin.top - margin.bottom);
+        (height = 320 - margin.top - margin.bottom);
 
       var linechart1Selector = d3.select("#linechart");
 
@@ -96,11 +100,11 @@ d3.csv(
       svg
         .append("text")
         .attr("text-anchor", "end")
-        .attr("x", width - 60)
+        .attr("x", width - 360)
         .attr("y", height + 40)
         .text(" YEAR ")
         .attr("class", "x axis label")
-        .attr("fill", "darkgreen");
+        .attr("fill", "#adff2f");
 
       // Add a label to the y axis
       svg
@@ -112,7 +116,7 @@ d3.csv(
         .style("text-anchor", "middle")
         .text(" EMISSION ")
         .attr("class", "y axis label")
-        .style("fill", "darkgreen");
+        .style("fill", "#adff2f");
 
       // Add line into SVG
       var line = d3
@@ -190,9 +194,7 @@ d3.csv(
           return 115 + i * (size + 100);
         })
         .attr("y", -25)
-        .style("fill", function (d) {
-          return color(d.key);
-        })
+        .style("fill", "white")
         .text(function (d) {
           return d.key;
         })
@@ -237,7 +239,7 @@ d3.csv(
         .attr("x1", 339)
         .attr("y1", 0)
         .attr("x2", 339)
-        .attr("y2", 200);
+        .attr("y2", 210);
 
       period2 = svg
         .append("line")
@@ -245,7 +247,7 @@ d3.csv(
         .attr("x1", 623)
         .attr("y1", 0)
         .attr("x2", 623)
-        .attr("y2", 200);
+        .attr("y2", 210);
 
       text_period1 = svg
         .append("text")
@@ -254,7 +256,9 @@ d3.csv(
         .attr("text-anchor", "middle")
         .attr("class", "myLabel1")
         .text("First industrial revolution")
-        .attr("font-size", "12px");
+        .attr("font-size", "13px")
+        .attr("fill", "lightgray")
+        .attr("opacity", 0.5)
 
       text_period2 = svg
         .append("text")
@@ -263,16 +267,20 @@ d3.csv(
         .attr("text-anchor", "middle")
         .attr("class", "myLabel2")
         .text("Second industrial revolution")
-        .attr("font-size", "12px");
+        .attr("font-size", "13px")
+        .attr("fill", "lightgray")
+        .attr("opacity", 0.5)
 
       text_period3 = svg
         .append("text")
         .attr("y", 10)
-        .attr("x", 690)
+        .attr("x", 695)
         .attr("text-anchor", "middle")
         .attr("class", "myLabel3")
         .text("Third industrial revolution")
-        .attr("font-size", "12px");
+        .attr("font-size", "13px")
+        .attr("fill", "lightgray")
+        .attr("opacity", 0.5)
 
       // this the black vertical line to folow mouse
       var mouseG = svg.append("g").attr("class", "mouse-over-effects");
@@ -280,7 +288,7 @@ d3.csv(
       mouseG
         .append("path")
         .attr("class", "mouse-line")
-        .style("stroke", "black")
+        .style("stroke", "gray")
         .style("stroke-dasharray", "3, 3")
         .style("stroke-width", "1.5px")
         .style("opacity", "0");
@@ -308,7 +316,7 @@ d3.csv(
         .append("div")
         .attr("id", "tooltip")
         .style("position", "fixed")
-        .style("background-color", "#D3D3D3")
+        .style("background-color", "whitesmoke")
         .style("padding", 1 + "px")
         .style("display", "none");
 
@@ -416,12 +424,10 @@ d3.csv(
           .data(sortingObj)
           .enter()
           .append("div")
-          .style("color", (d) => {
-            return color(d.country);
-          })
+          .style("color", "black")
           .style("font-size", 10)
           .html((d) => {
-            return d.country + " : " + d.Emission;
+            return d.country + " : " + numberWithCommas(d.Emission);
           });
       }
     }
