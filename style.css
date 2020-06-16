@@ -3,7 +3,7 @@ body {
   color: #333333;
 }
 button {
-  background-color: bisque;
+  background-color: antiquewhite;
 }
 
 #zoom_in{
@@ -59,6 +59,13 @@ button {
   top: 20px;
   left: 20px;
 }
+#bubbleMapLegend {
+  position: absolute;
+  top: 200px;
+  left: 20px;
+}
+
+
 /*----------------------------*/
 
 
@@ -75,6 +82,7 @@ text{
   left: 900px;
 }
 
+
 #descript{
   font-size: 20px;
   position: absolute;
@@ -90,19 +98,23 @@ text{
   left: 900px;
 }
 .axis.xAxis text{
-  fill: whitesmoke;
+  fill: antiquewhite;
 }
 .axis.xAxis path{
-  stroke: whitesmoke;
+  stroke: antiquewhite;
 }
 .axis.xAxis line{
-  stroke: whitesmoke;
+  stroke: antiquewhite;
 }
 
 text.title{
   font-size: 24px;
   font-weight: 500;
   fill: #adff2f;
+}
+text.subTitle{
+  fill: #D9E6BB;
+  font-size: 17px;
 }
 text.label{
   font-weight: 600;
@@ -130,22 +142,22 @@ label {
   mix-blend-mode: multiply;
 }
 .x.axis text{
-  fill: whitesmoke;
+  fill: antiquewhite;
 }
 .x.axis path{
-  stroke: whitesmoke;
+  stroke: antiquewhite;
 }
 .x.axis line{
-  stroke: whitesmoke;
+  stroke: antiquewhite;
 }
 
 .y.axis text{
-  fill: whitesmoke;
+  fill: antiquewhite;
 }
 .y.axis path{
-  stroke: whitesmoke;
+  stroke: antiquewhite;
 }
 .y.axis line{
-  stroke: whitesmoke;
+  stroke: antiquewhite;
 }
 

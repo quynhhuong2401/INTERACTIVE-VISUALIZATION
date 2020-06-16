@@ -15,9 +15,25 @@ d3.csv(
     } else {
       console.log(data);
 
-      function numberWithCommas(x) {
+    function numberWithCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     } 
+    function abbreviateNumber(value) {
+      var newValue = value;
+      if (value >= 1000) {
+          var suffixes = ["", " thousand", " million", " billion", " trillion"];
+          var suffixNum = Math.floor( (""+value).length/3 );
+          var shortValue = '';
+          for (var precision = 2; precision >= 1; precision--) {
+              shortValue = parseFloat( (suffixNum != 0 ? (value / Math.pow(1000,suffixNum) ) : value).toPrecision(precision));
+              var dotLessShortValue = (shortValue + '').replace(/[^a-zA-Z 0-9]+/g,'');
+              if (dotLessShortValue.length <= 2) { break; }
+          }
+          if (shortValue % 1 != 0)  shortValue = shortValue.toFixed(1);
+          newValue = shortValue+suffixes[suffixNum];
+      }
+      return newValue;
+  }
 
       // Set the margins
       var margin = {
@@ -104,7 +120,7 @@ d3.csv(
         .attr("y", height + 40)
         .text(" YEAR ")
         .attr("class", "x axis label")
-        .attr("fill", "#adff2f");
+        .attr("fill", "antiquewhite");
 
       // Add a label to the y axis
       svg
@@ -114,9 +130,9 @@ d3.csv(
         .attr("x", 0 - height / 2)
         .attr("dy", "1em")
         .style("text-anchor", "middle")
-        .text(" EMISSION ")
+        .text(" EMISSION (In tonnes)")
         .attr("class", "y axis label")
-        .style("fill", "#adff2f");
+        .style("fill", "antiquewhite");
 
       // Add line into SVG
       var line = d3
@@ -255,7 +271,7 @@ d3.csv(
         .attr("x", 150)
         .attr("text-anchor", "middle")
         .attr("class", "myLabel1")
-        .text("First industrial revolution")
+        .text("First Industrial Revolution")
         .attr("font-size", "13px")
         .attr("fill", "lightgray")
         .attr("opacity", 0.5)
@@ -266,7 +282,7 @@ d3.csv(
         .attr("x", 470)
         .attr("text-anchor", "middle")
         .attr("class", "myLabel2")
-        .text("Second industrial revolution")
+        .text("Second Industrial Revolution")
         .attr("font-size", "13px")
         .attr("fill", "lightgray")
         .attr("opacity", 0.5)
@@ -277,7 +293,7 @@ d3.csv(
         .attr("x", 695)
         .attr("text-anchor", "middle")
         .attr("class", "myLabel3")
-        .text("Third industrial revolution")
+        .text("Third Industrial Revolution")
         .attr("font-size", "13px")
         .attr("fill", "lightgray")
         .attr("opacity", 0.5)
@@ -302,7 +318,7 @@ d3.csv(
 
       mousePerLine
         .append("circle")
-        .attr("r", 7)
+        .attr("r", 5)
         .style("stroke", function (d) {
           return color(d.key);
         })
@@ -420,6 +436,7 @@ d3.csv(
           .style("top", d3.event.pageY - 200 + "px")
           .style("display", "block")
           .style("font-size", 12)
+          .style("font-family", "sans-serif")
           .selectAll()
           .data(sortingObj)
           .enter()
@@ -427,8 +444,9 @@ d3.csv(
           .style("color", "black")
           .style("font-size", 10)
           .html((d) => {
-            return d.country + " : " + numberWithCommas(d.Emission);
-          });
+            return d.country + " : " + abbreviateNumber(d.Emission);
+          })
+          .style("font-family", "sans-serif");
       }
     }
   }

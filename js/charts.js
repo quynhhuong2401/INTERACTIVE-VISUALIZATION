@@ -1,16 +1,3 @@
-/////////////////////////////////////////////////
-/**@author: 
- * TODO: 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- */
-//////////////////////////////////////////////////
-
 
 //===============================================//
 // Prepare data
@@ -39,7 +26,7 @@ d3.queue()
         console.log("emission Data", emissionData);
 
 
-     //------------------------Interactive Map------------------------//   
+     //------------------------Interactive Bubble Map------------------------//   
         const width = 850;
         const height = 330;
 
@@ -68,6 +55,23 @@ d3.queue()
         function numberWithCommas(x) {
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         } 
+
+        function abbreviateNumber(value) {
+            var newValue = value;
+            if (value >= 1000) {
+                var suffixes = ["", " thousand", " million", " billion", " trillion"];
+                var suffixNum = Math.floor( (""+value).length/3 );
+                var shortValue = '';
+                for (var precision = 2; precision >= 1; precision--) {
+                    shortValue = parseFloat( (suffixNum != 0 ? (value / Math.pow(1000,suffixNum) ) : value).toPrecision(precision));
+                    var dotLessShortValue = (shortValue + '').replace(/[^a-zA-Z 0-9]+/g,'');
+                    if (dotLessShortValue.length <= 2) { break; }
+                }
+                if (shortValue % 1 != 0)  shortValue = shortValue.toFixed(1);
+                newValue = shortValue+suffixes[suffixNum];
+            }
+            return newValue;
+        }
         // Tracking country name in emission data
         for (var i = 0; i < emissionData.length; i++){
             var countryName = emissionData[i]["Country"];
@@ -76,7 +80,7 @@ d3.queue()
 
         // Merge json with emission data and continent data
         for (var idx = 0; idx < worldGeoJson.features.length; idx++){
-            console.log("json country:", worldGeoJson.features[idx].properties["NAME_SORT"]);  //Tracking country name in json file
+            // console.log("json country:", worldGeoJson.features[idx].properties["NAME_SORT"]);  //Tracking country name in json file
             for (var j = 0; j < years.length; j++){
                 worldGeoJson.features[idx].properties[years[j]] = 0;
                 worldGeoJson.features[idx].properties["continent"] = "Others";
@@ -156,7 +160,7 @@ d3.queue()
             .on("mouseover", function(d) {
                 d3.select("#tooltip")
                     .html(  "Country: <strong>" + d.properties["NAME_SORT"] + "</strong><br>" +
-                            "CO2: <strong>" + numberWithCommas(d.properties[updateYear]) + "</strong><br>"  )
+                            "CO2: <strong>" + abbreviateNumber(d.properties[updateYear]) + " tonnes" + "</strong><br>"  )
                     .attr('style', 'left:' + (d3.event.clientX + 20) + 'px; top:' + (d3.event.clientY - 20) + 'px')
                     .style("font-family", "sans-serif")
     
@@ -186,7 +190,6 @@ d3.queue()
 
         // Zoom //
         //======//
-        //FIXME: Sửa lỗi khi click zoom in, out không zoom tiếp mà trở về như cũ mới zoom 
         function zoomed() {
             svgGeoChart.attr("transform", d3.event.transform);
         }
@@ -231,7 +234,7 @@ d3.queue()
 
 
         //----------------------Racing Bar Chart-------------------//
-        var margin = {top: 70, right: 0, bottom: 5, left: 0};
+        var margin = {top: 70, right: 0, bottom: 0, left: 0};
 
         var barChartHeight = 480 - margin.top - margin.bottom,
             barChartWidth = 200 - margin.left - margin.right,
@@ -239,13 +242,17 @@ d3.queue()
         var barPadding = (barChartHeight-(margin.bottom+margin.top))/(top_n*5);
         var svg = d3.select("#barchart")
             .append("svg")
-            .attr("width", 960)
-            .attr("height", 600)
+            .attr("width", 560)
+            .attr("height", 450)
             .append("g")
         var title = svg.append("text")
             .attr("class", "title")
             .attr("y", 20)
             .html("Top countries with the largest CO2 emission");
+        var subTitle = svg.append("text")
+            .attr("class", "subTitle")
+            .attr("y", 45)
+            .html("Amount of CO2, tonnes");
 
         var yearSlice = emissionData
             .sort((a,b) => b[updateYear] - a[updateYear])
@@ -266,10 +273,10 @@ d3.queue()
             .domain([top_n, 0])
             .range([barChartHeight - margin.bottom, margin.top])
 
-        console.log("y(0):", y(0) + "  y(1):" + y(1));
+        // console.log("y(0):", y(0) + "  y(1):" + y(1));
         var xAxis = d3.axisTop()
             .scale(x)
-            .ticks(barChartWidth > 500 ? 4:2)
+            .ticks(barChartWidth > 500 ? 4:3)
             .tickSize(-(barChartHeight-margin.top-margin.bottom))
             .tickFormat(d => d3.format(',')(d));
 
@@ -379,10 +386,7 @@ d3.queue()
                 .attr('y', d => y(top_n+1)+5+((y(1)-y(0))/2))
                 .style('text-anchor', 'start')
                 .style("fill", "gray")
-                .html(function(d){
-                    if (d[year] != 0)
-                        return d["Country"]
-                })    
+                .html(d => d["Country"])    
                 .transition()
                     .duration(500)
                     .ease(d3.easeLinear)
@@ -442,8 +446,6 @@ d3.queue()
 
 
         // ------------------TimeSlider------------------------- //
-        //========//
-          // Time test
         var dataTime = years.map(function(d) {
             return new Date(d, 10, 3);
         });
@@ -460,8 +462,8 @@ d3.queue()
                 // console.log(year);
                 updateYear = year;
                 updateCheckbox();
-                updateBubble(updateYear);
-                updateBarChart(updateYear);
+                updateBubble(year);
+                updateBarChart(year);
                 
             })
 
@@ -472,7 +474,56 @@ d3.queue()
             .append("g")
             .attr("transform", "translate(30,30)")
             .call(slider);
+        /*
+        //--------------Legend for bubble map-------------//
+        var svgBubbleLegend = d3.select("#bubbleMapLegend")
+            .append("svg")
+                .attr("width", 200)
+                .attr("height", 100)
 
-        
+        // Add legend: circles
+        var valuesToShow = [10000000000, 100000000000, 400000000000]
+        var xCircle = 40
+        var xLabel = 100
+
+        svgBubbleLegend
+        .selectAll("legend")
+        .data(valuesToShow)
+        .enter()
+        .append("circle")
+            .attr("cx", xCircle)
+            .attr("cy", function(d){ return 100 - rScale(d) } )
+            .attr("r", function(d){ return rScale(d) })
+            .style("fill", "none")
+            .attr("stroke", "antiquewhite")
+            .attr("stroke-width", 2)
+
+        // Add legend: segments
+        svgBubbleLegend
+        .selectAll("legend")
+        .data(valuesToShow)
+        .enter()
+        .append("line")
+            .attr('x1', function(d){ return xCircle + rScale(d) } )
+            .attr('x2', xLabel)
+            .attr('y1', function(d){ return 100 - rScale(d) } )
+            .attr('y2', function(d){ return 100 - rScale(d) } )
+            .attr('stroke', 'antiquewhite')
+            .style('stroke-dasharray', ('2,2'))
+
+        // Add legend: labels
+        svgBubbleLegend
+        .selectAll("legend")
+        .data(valuesToShow)
+        .enter()
+        .append("text")
+            .attr('x', xLabel)
+            .attr('y', function(d){ return 100 - rScale(d) } )
+            .text( function(d){ return abbreviateNumber(d) } )
+            .style("font-size", 10)
+            .style("font-family", "sans-serif")
+            .attr('alignment-baseline', 'middle')
+            .attr("fill", "antiquewhite")
+        */
 
     } )
